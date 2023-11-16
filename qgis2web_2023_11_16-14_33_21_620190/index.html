@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/LeuvMun_Trees_Sorted_1.js"></script>
+        <script src="data/LeuvMun_Trees2nd1856_RawData_31370_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[50.81121024917733,4.545502356654607],[50.97519443115973,4.871595078248664]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OpenStreetMap_0');
+        map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
+        var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenStreetMap_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_0;
+        map.addLayer(layer_OpenStreetMap_0);
+        function pop_LeuvMun_Trees_Sorted_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SectorIDs</th>\
+                        <td>' + (feature.properties['SectorIDs'] !== null ? autolinker.link(feature.properties['SectorIDs'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">T_SEC_NL</th>\
+                        <td>' + (feature.properties['T_SEC_NL'] !== null ? autolinker.link(feature.properties['T_SEC_NL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">T_NIS6_NL</th>\
+                        <td>' + (feature.properties['T_NIS6_NL'] !== null ? autolinker.link(feature.properties['T_NIS6_NL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">T_MUN_NL</th>\
+                        <td>' + (feature.properties['T_MUN_NL'] !== null ? autolinker.link(feature.properties['T_MUN_NL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">T_ARR_NL</th>\
+                        <td>' + (feature.properties['T_ARR_NL'] !== null ? autolinker.link(feature.properties['T_ARR_NL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PROV</th>\
+                        <td>' + (feature.properties['PROV'] !== null ? autolinker.link(feature.properties['PROV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">REGION</th>\
+                        <td>' + (feature.properties['REGION'] !== null ? autolinker.link(feature.properties['REGION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">M_AREA_HA</th>\
+                        <td>' + (feature.properties['M_AREA_HA'] !== null ? autolinker.link(feature.properties['M_AREA_HA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">M_PERI_M</th>\
+                        <td>' + (feature.properties['M_PERI_M'] !== null ? autolinker.link(feature.properties['M_PERI_M'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CD_REFNIS</th>\
+                        <td>' + (feature.properties['CD_REFNIS'] !== null ? autolinker.link(feature.properties['CD_REFNIS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">POP</th>\
+                        <td>' + (feature.properties['POP'] !== null ? autolinker.link(feature.properties['POP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DT_STRT_SE</th>\
+                        <td>' + (feature.properties['DT_STRT_SE'] !== null ? autolinker.link(feature.properties['DT_STRT_SE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PopDen_km2</th>\
+                        <td>' + (feature.properties['PopDen_km2'] !== null ? autolinker.link(feature.properties['PopDen_km2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">type_code</th>\
+                        <td>' + (feature.properties['type_code'] !== null ? autolinker.link(feature.properties['type_code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">type</th>\
+                        <td>' + (feature.properties['type'] !== null ? autolinker.link(feature.properties['type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NumSamples</th>\
+                        <td>' + (feature.properties['NumSamples'] !== null ? autolinker.link(feature.properties['NumSamples'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AvgTrees</th>\
+                        <td>' + (feature.properties['AvgTrees'] !== null ? autolinker.link(feature.properties['AvgTrees'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LeuvMun_Trees_Sorted_1_0(feature) {
+            if (feature.properties['AvgTrees'] >= 0.000000 && feature.properties['AvgTrees'] <= 0.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees_Sorted_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(250,250,250,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['AvgTrees'] >= 0.999000 && feature.properties['AvgTrees'] <= 2.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees_Sorted_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(189,189,189,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['AvgTrees'] >= 2.999000 && feature.properties['AvgTrees'] <= 4.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees_Sorted_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,128,128,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['AvgTrees'] >= 4.999000 && feature.properties['AvgTrees'] <= 6.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees_Sorted_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(66,66,66,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['AvgTrees'] >= 6.999000 && feature.properties['AvgTrees'] <= 9.800000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees_Sorted_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(5,5,5,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_LeuvMun_Trees_Sorted_1');
+        map.getPane('pane_LeuvMun_Trees_Sorted_1').style.zIndex = 401;
+        map.getPane('pane_LeuvMun_Trees_Sorted_1').style['mix-blend-mode'] = 'normal';
+        var layer_LeuvMun_Trees_Sorted_1 = new L.geoJson(json_LeuvMun_Trees_Sorted_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LeuvMun_Trees_Sorted_1',
+            layerName: 'layer_LeuvMun_Trees_Sorted_1',
+            pane: 'pane_LeuvMun_Trees_Sorted_1',
+            onEachFeature: pop_LeuvMun_Trees_Sorted_1,
+            style: style_LeuvMun_Trees_Sorted_1_0,
+        });
+        bounds_group.addLayer(layer_LeuvMun_Trees_Sorted_1);
+        map.addLayer(layer_LeuvMun_Trees_Sorted_1);
+        function pop_LeuvMun_Trees2nd1856_RawData_31370_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">study_id</th>\
+                        <td>' + (feature.properties['study_id'] !== null ? autolinker.link(feature.properties['study_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SectorIDs</th>\
+                        <td>' + (feature.properties['SectorIDs'] !== null ? autolinker.link(feature.properties['SectorIDs'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">pano_id</th>\
+                        <td>' + (feature.properties['pano_id'] !== null ? autolinker.link(feature.properties['pano_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PanoLat</th>\
+                        <td>' + (feature.properties['PanoLat'] !== null ? autolinker.link(feature.properties['PanoLat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PanoLon</th>\
+                        <td>' + (feature.properties['PanoLon'] !== null ? autolinker.link(feature.properties['PanoLon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Panodate</th>\
+                        <td>' + (feature.properties['Panodate'] !== null ? autolinker.link(feature.properties['Panodate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Panoyear</th>\
+                        <td>' + (feature.properties['Panoyear'] !== null ? autolinker.link(feature.properties['Panoyear'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TreeCount</th>\
+                        <td>' + (feature.properties['TreeCount'] !== null ? autolinker.link(feature.properties['TreeCount'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LeuvMun_Trees2nd1856_RawData_31370_2_0(feature) {
+            if (feature.properties['TreeCount'] >= 0.000000 && feature.properties['TreeCount'] <= 0.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees2nd1856_RawData_31370_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,25,28,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['TreeCount'] >= 0.999000 && feature.properties['TreeCount'] <= 2.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees2nd1856_RawData_31370_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,174,97,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['TreeCount'] >= 2.999000 && feature.properties['TreeCount'] <= 4.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees2nd1856_RawData_31370_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,192,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['TreeCount'] >= 4.999000 && feature.properties['TreeCount'] <= 6.999000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees2nd1856_RawData_31370_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(166,217,106,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['TreeCount'] >= 6.999000 && feature.properties['TreeCount'] <= 17.000000 ) {
+                return {
+                pane: 'pane_LeuvMun_Trees2nd1856_RawData_31370_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(26,150,65,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_LeuvMun_Trees2nd1856_RawData_31370_2');
+        map.getPane('pane_LeuvMun_Trees2nd1856_RawData_31370_2').style.zIndex = 402;
+        map.getPane('pane_LeuvMun_Trees2nd1856_RawData_31370_2').style['mix-blend-mode'] = 'normal';
+        var layer_LeuvMun_Trees2nd1856_RawData_31370_2 = new L.geoJson(json_LeuvMun_Trees2nd1856_RawData_31370_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LeuvMun_Trees2nd1856_RawData_31370_2',
+            layerName: 'layer_LeuvMun_Trees2nd1856_RawData_31370_2',
+            pane: 'pane_LeuvMun_Trees2nd1856_RawData_31370_2',
+            onEachFeature: pop_LeuvMun_Trees2nd1856_RawData_31370_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_LeuvMun_Trees2nd1856_RawData_31370_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_LeuvMun_Trees2nd1856_RawData_31370_2);
+        map.addLayer(layer_LeuvMun_Trees2nd1856_RawData_31370_2);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'LeuvMun_Trees2nd1856_RawData_31370<br /><table><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees2nd1856_RawData_31370_2_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees2nd1856_RawData_31370_2_121.png" /></td><td>1 - 2</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees2nd1856_RawData_31370_2_342.png" /></td><td>3 - 4</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees2nd1856_RawData_31370_2_563.png" /></td><td>5 - 6</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees2nd1856_RawData_31370_2_74.png" /></td><td>7 +</td></tr></table>': layer_LeuvMun_Trees2nd1856_RawData_31370_2,'LeuvMun_Trees_Sorted<br /><table><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees_Sorted_1_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees_Sorted_1_121.png" /></td><td>1 - 2</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees_Sorted_1_342.png" /></td><td>3 - 4</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees_Sorted_1_563.png" /></td><td>5 - 6</td></tr><tr><td style="text-align: center;"><img src="legend/LeuvMun_Trees_Sorted_1_74.png" /></td><td>7 +</td></tr></table>': layer_LeuvMun_Trees_Sorted_1,"OpenStreetMap": layer_OpenStreetMap_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_LeuvMun_Trees2nd1856_RawData_31370_2,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'TreeCount'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"TreeCount": "int","AvgTrees": "real","T_SEC_NL": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_TreeCount = document.createElement("div");
+            div_TreeCount.id = "div_TreeCount";
+            div_TreeCount.className = "slider";
+            document.getElementById("menu").appendChild(div_TreeCount);
+            var lab_TreeCount = document.createElement('div');
+            lab_TreeCount.innerHTML  = 'TreeCount: <span id="val_TreeCount"></span>';
+            lab_TreeCount.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_TreeCount);
+            var reset_TreeCount = document.createElement('div');
+            reset_TreeCount.innerHTML = 'clear filter';
+            reset_TreeCount.className = 'filterlabel';
+            lab_TreeCount.className = 'filterlabel';
+            reset_TreeCount.onclick = function() {
+                sel_TreeCount.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_TreeCount);
+            var sel_TreeCount = document.getElementById('div_TreeCount');
+            noUiSlider.create(sel_TreeCount, {
+                connect: true,
+                start: [0, 17],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 17
+                }
+            });
+            sel_TreeCount.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_TreeCount = document.getElementById('val_TreeCount');
+            val_TreeCount.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_AvgTrees = document.createElement("div");
+            div_AvgTrees.id = "div_AvgTrees";
+            div_AvgTrees.className = "slider";
+            document.getElementById("menu").appendChild(div_AvgTrees);
+            var lab_AvgTrees = document.createElement('div');
+            lab_AvgTrees.innerHTML  = 'AvgTrees: <span id="val_AvgTrees"></span>';
+            lab_AvgTrees.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_AvgTrees);
+            var reset_AvgTrees = document.createElement('div');
+            reset_AvgTrees.innerHTML = 'clear filter';
+            reset_AvgTrees.className = 'filterlabel';
+            lab_AvgTrees.className = 'filterlabel';
+            reset_AvgTrees.onclick = function() {
+                sel_AvgTrees.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_AvgTrees);
+            var sel_AvgTrees = document.getElementById('div_AvgTrees');
+            noUiSlider.create(sel_AvgTrees, {
+                connect: true,
+                start: [0.3, 9.8],
+                range: {
+                min: 0.3,
+                max: 9.8
+                }
+            });
+            sel_AvgTrees.noUiSlider.on('update', function (values) {
+            val_AvgTrees = document.getElementById('val_AvgTrees');
+            val_AvgTrees.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_T_SEC_NL = document.createElement('div');
+            div_T_SEC_NL.id = "div_T_SEC_NL";
+            div_T_SEC_NL.className= "filterselect";
+            document.getElementById("menu").appendChild(div_T_SEC_NL);
+            sel_T_SEC_NL = document.createElement('select');
+            sel_T_SEC_NL.multiple = true;
+            sel_T_SEC_NL.size = 10;
+            sel_T_SEC_NL.id = "sel_T_SEC_NL";
+            var T_SEC_NL_options_str = "<option value='' unselected></option>";
+            sel_T_SEC_NL.onchange = function(){filterFunc()};
+            T_SEC_NL_options_str  += '<option value="ALSEMBERG">ALSEMBERG</option>';
+            T_SEC_NL_options_str  += '<option value="BANKSTRAAT">BANKSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="BARREEL">BARREEL</option>';
+            T_SEC_NL_options_str  += '<option value="BELLE VUE">BELLE VUE</option>';
+            T_SEC_NL_options_str  += '<option value="BENEDEN KESSEL">BENEDEN KESSEL</option>';
+            T_SEC_NL_options_str  += '<option value="BENEDEN-LO">BENEDEN-LO</option>';
+            T_SEC_NL_options_str  += '<option value="BLAUWPUT-CENTRUM">BLAUWPUT-CENTRUM</option>';
+            T_SEC_NL_options_str  += '<option value="BLIJDE INKOMSTSTRAAT">BLIJDE INKOMSTSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="BONDGENOTENLAAN">BONDGENOTENLAAN</option>';
+            T_SEC_NL_options_str  += '<option value="BOOLEEG">BOOLEEG</option>';
+            T_SEC_NL_options_str  += '<option value="BOVEN-LO">BOVEN-LO</option>';
+            T_SEC_NL_options_str  += '<option value="BRABANCONNESTRAAT">BRABANCONNESTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="BRUINE VELD">BRUINE VELD</option>';
+            T_SEC_NL_options_str  += '<option value="BRUUL">BRUUL</option>';
+            T_SEC_NL_options_str  += '<option value="CAMPUS HEVERLEE">CAMPUS HEVERLEE</option>';
+            T_SEC_NL_options_str  += '<option value="CENTRALE GEVANGENIS">CENTRALE GEVANGENIS</option>';
+            T_SEC_NL_options_str  += '<option value="CENTRALE WERKPLAATSEN">CENTRALE WERKPLAATSEN</option>';
+            T_SEC_NL_options_str  += '<option value="DAMIAANPLEIN">DAMIAANPLEIN</option>';
+            T_SEC_NL_options_str  += '<option value="DE JACHT">DE JACHT</option>';
+            T_SEC_NL_options_str  += '<option value="DE MOL">DE MOL</option>';
+            T_SEC_NL_options_str  += '<option value="DEN DUIVEL">DEN DUIVEL</option>';
+            T_SEC_NL_options_str  += '<option value="DIJLEDREEF">DIJLEDREEF</option>';
+            T_SEC_NL_options_str  += '<option value="DON BOSCO">DON BOSCO</option>';
+            T_SEC_NL_options_str  += '<option value="DRAAK">DRAAK</option>';
+            T_SEC_NL_options_str  += '<option value="DRIES">DRIES</option>';
+            T_SEC_NL_options_str  += '<option value="EGENHOVEN">EGENHOVEN</option>';
+            T_SEC_NL_options_str  += '<option value="GASTHUISBERG">GASTHUISBERG</option>';
+            T_SEC_NL_options_str  += '<option value="GROOT BEGIJNHOF">GROOT BEGIJNHOF</option>';
+            T_SEC_NL_options_str  += '<option value="H. HART">H. HART</option>';
+            T_SEC_NL_options_str  += '<option value="HAASRODE INDUSTRIEZONE">HAASRODE INDUSTRIEZONE</option>';
+            T_SEC_NL_options_str  += '<option value="HEFFEL">HEFFEL</option>';
+            T_SEC_NL_options_str  += '<option value="HET BROEK">HET BROEK</option>';
+            T_SEC_NL_options_str  += '<option value="HEUVELHOF">HEUVELHOF</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE - DREEF">HEVERLEE - DREEF</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE - WAVERSE BAAN">HEVERLEE - WAVERSE BAAN</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE KAZERNE">HEVERLEE KAZERNE</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE KERKHOF">HEVERLEE KERKHOF</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE NAAMSE POORT">HEVERLEE NAAMSE POORT</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE PARK">HEVERLEE PARK</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE STATION">HEVERLEE STATION</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEE-CENTRUM">HEVERLEE-CENTRUM</option>';
+            T_SEC_NL_options_str  += '<option value="HEVERLEEBOS">HEVERLEEBOS</option>';
+            T_SEC_NL_options_str  += '<option value="IJZEREN BRUGJE">IJZEREN BRUGJE</option>';
+            T_SEC_NL_options_str  += '<option value="IJZERMOLEN">IJZERMOLEN</option>';
+            T_SEC_NL_options_str  += '<option value="JEUGDSQUARE">JEUGDSQUARE</option>';
+            T_SEC_NL_options_str  += '<option value="KARDINAALSTRAAT">KARDINAALSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="KAREELVELD">KAREELVELD</option>';
+            T_SEC_NL_options_str  += '<option value="KEIZERSBERG">KEIZERSBERG</option>';
+            T_SEC_NL_options_str  += '<option value="KESSEL-LO ACHTER CENTRALE">KESSEL-LO ACHTER CENTRALE</option>';
+            T_SEC_NL_options_str  += '<option value="KESSEL-LO SPORTSTADION">KESSEL-LO SPORTSTADION</option>';
+            T_SEC_NL_options_str  += '<option value="KESSELBERG - LEMING">KESSELBERG - LEMING</option>';
+            T_SEC_NL_options_str  += '<option value="KLEIN RIJSEL">KLEIN RIJSEL</option>';
+            T_SEC_NL_options_str  += '<option value="KLEINE GEVANGENIS">KLEINE GEVANGENIS</option>';
+            T_SEC_NL_options_str  += '<option value="KOKSIJDEWIJK">KOKSIJDEWIJK</option>';
+            T_SEC_NL_options_str  += '<option value="KWADE HOEK">KWADE HOEK</option>';
+            T_SEC_NL_options_str  += '<option value="LADEUZE">LADEUZE</option>';
+            T_SEC_NL_options_str  += '<option value="LANGEVELD-VERSPREIDE BEWONING">LANGEVELD-VERSPREIDE BEWONING</option>';
+            T_SEC_NL_options_str  += '<option value="LEI - VISMARKT">LEI - VISMARKT</option>';
+            T_SEC_NL_options_str  += '<option value="LEPELSTRAAT">LEPELSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN DIESTSE STRAAT">LEUVEN DIESTSE STRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN DIESTSEVEST">LEUVEN DIESTSEVEST</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN KLINIEK -O.L.VROUW-KERK">LEUVEN KLINIEK -O.L.VROUW-KERK</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN MECHELSE STRAAT">LEUVEN MECHELSE STRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN NAAMSESTRAAT-NOORD">LEUVEN NAAMSESTRAAT-NOORD</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN NIEUW KWARTIER">LEUVEN NIEUW KWARTIER</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN STADSPARK">LEUVEN STADSPARK</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN STATION">LEUVEN STATION</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN VAART">LEUVEN VAART</option>';
+            T_SEC_NL_options_str  += '<option value="LEUVEN-CENTRUM">LEUVEN-CENTRUM</option>';
+            T_SEC_NL_options_str  += '<option value="LOBERGEN">LOBERGEN</option>';
+            T_SEC_NL_options_str  += '<option value="MANNENSTRAAT">MANNENSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="MARIA-THERESIASTRAAT">MARIA-THERESIASTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="MATADI">MATADI</option>';
+            T_SEC_NL_options_str  += '<option value="MOLENBEEK">MOLENBEEK</option>';
+            T_SEC_NL_options_str  += '<option value="NIEUWE STEENWEG">NIEUWE STEENWEG</option>';
+            T_SEC_NL_options_str  += '<option value="NOORMANNEN">NOORMANNEN</option>';
+            T_SEC_NL_options_str  += '<option value="PASTEURWIJK">PASTEURWIJK</option>';
+            T_SEC_NL_options_str  += '<option value="PINKSTERMOLEN">PINKSTERMOLEN</option>';
+            T_SEC_NL_options_str  += '<option value="PLEIN">PLEIN</option>';
+            T_SEC_NL_options_str  += '<option value="PREDIKHERENBRUG">PREDIKHERENBRUG</option>';
+            T_SEC_NL_options_str  += '<option value="PUTHOF">PUTHOF</option>';
+            T_SEC_NL_options_str  += '<option value="PUTKAPEL-CENTRUM">PUTKAPEL-CENTRUM</option>';
+            T_SEC_NL_options_str  += '<option value="PUTKAPEL-VERSPREIDE BEWONING">PUTKAPEL-VERSPREIDE BEWONING</option>';
+            T_SEC_NL_options_str  += '<option value="REDINGEN">REDINGEN</option>';
+            T_SEC_NL_options_str  += '<option value="RERUM NOVARUM">RERUM NOVARUM</option>';
+            T_SEC_NL_options_str  += '<option value="ROESELBERG">ROESELBERG</option>';
+            T_SEC_NL_options_str  += '<option value="ROTSPOEL-VERSPREIDE BEWONING">ROTSPOEL-VERSPREIDE BEWONING</option>';
+            T_SEC_NL_options_str  += '<option value="SAFFRANENBERG">SAFFRANENBERG</option>';
+            T_SEC_NL_options_str  += '<option value="SCHOOLBERGEN">SCHOOLBERGEN</option>';
+            T_SEC_NL_options_str  += '<option value="SINT-ANTONIUS">SINT-ANTONIUS</option>';
+            T_SEC_NL_options_str  += '<option value="SINT-JACOBS">SINT-JACOBS</option>';
+            T_SEC_NL_options_str  += '<option value="SINT-KWINTENS">SINT-KWINTENS</option>';
+            T_SEC_NL_options_str  += '<option value="SINT-MAARTENSDAL">SINT-MAARTENSDAL</option>';
+            T_SEC_NL_options_str  += '<option value="SINT-MARTINUS">SINT-MARTINUS</option>';
+            T_SEC_NL_options_str  += '<option value="SPAANSE KROON">SPAANSE KROON</option>';
+            T_SEC_NL_options_str  += '<option value="TER ELST">TER ELST</option>';
+            T_SEC_NL_options_str  += '<option value="TERBANK">TERBANK</option>';
+            T_SEC_NL_options_str  += '<option value="TIENSESTRAAT">TIENSESTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="TROLIEBERG">TROLIEBERG</option>';
+            T_SEC_NL_options_str  += '<option value="VAARTDIJK">VAARTDIJK</option>';
+            T_SEC_NL_options_str  += '<option value="VAN EVEN">VAN EVEN</option>';
+            T_SEC_NL_options_str  += '<option value="VAN MONSSTRAAT">VAN MONSSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="VESALIUS">VESALIUS</option>';
+            T_SEC_NL_options_str  += '<option value="VIJVERPARK">VIJVERPARK</option>';
+            T_SEC_NL_options_str  += '<option value="VITAL DECOSTER">VITAL DECOSTER</option>';
+            T_SEC_NL_options_str  += '<option value="VLIERBEEK">VLIERBEEK</option>';
+            T_SEC_NL_options_str  += '<option value="VOGELZANG">VOGELZANG</option>';
+            T_SEC_NL_options_str  += '<option value="VORMINGSSTATION">VORMINGSSTATION</option>';
+            T_SEC_NL_options_str  += '<option value="WIJGMAAL-KERN">WIJGMAAL-KERN</option>';
+            T_SEC_NL_options_str  += '<option value="WIJVELD">WIJVELD</option>';
+            T_SEC_NL_options_str  += '<option value="WILSELE HOEK">WILSELE HOEK</option>';
+            T_SEC_NL_options_str  += '<option value="WILSELE INDUSTRIEZONE">WILSELE INDUSTRIEZONE</option>';
+            T_SEC_NL_options_str  += '<option value="WILSELE MECHELSE POORT">WILSELE MECHELSE POORT</option>';
+            T_SEC_NL_options_str  += '<option value="WILSELE OUD CENTRUM">WILSELE OUD CENTRUM</option>';
+            T_SEC_NL_options_str  += '<option value="WILSELE-CENTRUM">WILSELE-CENTRUM</option>';
+            T_SEC_NL_options_str  += '<option value="ZAVELSTRAAT">ZAVELSTRAAT</option>';
+            T_SEC_NL_options_str  += '<option value="ZIEKELINGEN">ZIEKELINGEN</option>';
+            T_SEC_NL_options_str  += '<option value="ZWAAIKOM">ZWAAIKOM</option>';
+            sel_T_SEC_NL.innerHTML = T_SEC_NL_options_str;
+            div_T_SEC_NL.appendChild(sel_T_SEC_NL);
+            var lab_T_SEC_NL = document.createElement('div');
+            lab_T_SEC_NL.innerHTML = 'T_SEC_NL';
+            lab_T_SEC_NL.className = 'filterlabel';
+            div_T_SEC_NL.appendChild(lab_T_SEC_NL);
+            var reset_T_SEC_NL = document.createElement('div');
+            reset_T_SEC_NL.innerHTML = 'clear filter';
+            reset_T_SEC_NL.className = 'filterlabel';
+            reset_T_SEC_NL.onclick = function() {
+                var options = document.getElementById("sel_T_SEC_NL").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_T_SEC_NL.appendChild(reset_T_SEC_NL);
+        </script>
+    </body>
+</html>
